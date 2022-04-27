@@ -20,7 +20,6 @@ async function run() {
 
         // GET
         app.get('/product', async (req, res) => {
-            console.log('query', req.query);
             const page = parseInt(req.query.page);
             const size = parseInt(req.query.size);
 
@@ -42,11 +41,10 @@ async function run() {
         })
 
         // POST by keys
-        app.post('/productByKeys', async (req, res) => {
-            const keys = req.body;
-            const ids = keys.map(id => ObjectId(id));
-            console.log(keys);
-            const query = { _id: { $in: ids } }
+        app.post('/productByKey', async (req, res) => {
+            const key = req.body;
+            const id = key.map(id => ObjectId(id));
+            const query = { _id: { $in: id } }
             const cursor = productCollection.find(query);
             const products = await cursor.toArray();
             res.send(products);
@@ -61,9 +59,9 @@ run().catch(console.dir);
 
 
 app.get('/', (req, res) => {
-    res.send('Hello world!')
+    res.send('Ema john Shopping Browser!')
 })
 
 app.listen(port, () => {
-    console.log('Connection Ok', port);
+    console.log('Ema john Shopping Server Is Running', port);
 })
